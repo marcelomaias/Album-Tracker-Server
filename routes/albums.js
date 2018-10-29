@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {Album, validate} = require('../models/album')
+const { Album, validate } = require('../models/albumModel')
 
 router.get('/', async (req, res) => {
   const albums = await Album.find()
