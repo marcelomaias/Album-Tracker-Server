@@ -1,9 +1,9 @@
-// const _ = require('lodash')
-// const bcrypt = require('bcrypt')
+const _ = require('lodash')
+const bcrypt = require('bcrypt')
 const express = require('express')
 const router = express.Router()
-// const {User, validate} = require('../models/user')
-// const auth = require('../middleware/auth')
+const {User, validate} = require('../models/userModel')
+const auth = require('../middleware/auth')
 
 router.get('/', async (req, res) => {
   const users = await User
@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
   res.send(users)
 })
 
-router.get('/me', async (req, res) => {  // GET THE LOGGED IN USER
+router.get('/me', auth, async (req, res) => {  // GET THE LOGGED IN USER
   const user = await User.findById(req.user._id).select('-password')
   res.send(user)
 })
@@ -30,6 +30,14 @@ router.post('/', async (req, res) => {  // CREATE A NEW USER
 
   const token = user.generateAuthToken() // GENERATE TOKEN
   res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email'])) // SET TOKEN IN THE HEADER TO THE CLIENT
+})
+
+router.delete('/:id', async (req, res) => {
+  const user = await User.findByIdAndRemove(req.params.id)
+
+  if (!user) return res.status(404).send('User not found.')
+
+  res.send(user)
 })
 
 module.exports = router

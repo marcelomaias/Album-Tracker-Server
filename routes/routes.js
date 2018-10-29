@@ -1,10 +1,9 @@
-const express = require('express')
 const albumRouter = require('./albums')
-// const userRouter = require('./users')
-// const authRouter = require('./routes/auth')
+const userRouter = require('./users')
+const authRouter = require('./auth')
 
 module.exports = function (app) {
-  // app.use('/api/users', userRouter)
-  // app.use('/api/auth', authRouter)
-  app.use('/api/albums', albumRouter) // SET THE INDIVIDUAL ROUTES
+  app.use('/api/users', userRouter) // SET THE INDIVIDUAL ROUTES
+  app.use('/api/login', authRouter)
+  app.use('/api/albums', albumRouter)
 }

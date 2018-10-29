@@ -20,7 +20,9 @@ const albumSchema = new mongoose.Schema({
   imgUrl: {
     type: String,
   },
-  songs: [String]
+  songs: {
+    type: Array,
+  }
 })
 
 const Album = mongoose.model('Album', albumSchema)
@@ -30,7 +32,8 @@ function validateAlbum(album) {
     name: Joi.string().min(2).required(),
     artist: Joi.string().min(2).required(),
     imgUrl: Joi.string(),
-    description: Joi.string()
+    description: Joi.string(),
+    songs: Joi.array()
   };
 
   return Joi.validate(album, schema)
