@@ -13,7 +13,8 @@ router.post('/', async (req, res) => {
 
   let album = new Album({
     name: req.body.name,
-    artist: req.body.artist
+    artist: req.body.artist,
+    imgUrl: req.body.imgUrl
   })
   album = await album.save()
   
@@ -33,7 +34,8 @@ router.put('/:id', async (req, res) => {
 
   const album = await Album.findByIdAndUpdate(req.params.id, {
     name: req.body.name,
-    artist: req.body.artist
+    artist: req.body.artist,
+    imgUrl: req.body.imgUrl
   }, { new: true })
 
   if (!album) return res.status(404).send('Album not found.')
